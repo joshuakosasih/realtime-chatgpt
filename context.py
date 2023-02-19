@@ -2,7 +2,7 @@ import re
 from openaiclient import generate_text
 from collections import deque
 
-from profile import ModelProfile
+from settings import ModelProfile
 
 
 class ContextKeeper:

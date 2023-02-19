@@ -1,12 +1,11 @@
 from context import ContextKeeper
-from profile import ModelProfile
+from settings import ModelProfile
 from realtime import process_input
 
 
 def main():
     # Create a ContextKeeper instance with a GPT engine
-    engine = "davinci"
-    context_keeper = ContextKeeper(engine)
+    context_keeper = ContextKeeper()
     model_profile = ModelProfile()
 
     # Start the conversation loop

@@ -2,7 +2,7 @@ from typing import List
 
 from crawler import extract_content_from_google
 from openaiclient import generate_text
-from profile import ModelProfile
+from settings import ModelProfile
 
 
 def generate_keywords(text: str, profile: ModelProfile) -> List[str]:
@@ -81,4 +81,4 @@ def process_input(text: str, profile: ModelProfile) -> str:
     contents = get_search_results(keywords)
 
     # Summarize the contents and return them to be used to append context
-    return summarize_contents(contents)
+    return summarize_contents(contents, profile)

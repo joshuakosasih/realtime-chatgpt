@@ -1,10 +1,10 @@
 import openai
 import os
 
-from profile import ModelProfile
+from settings import ModelProfile
 
 # Set OpenAI API key
-openai.api_key = os.environ["OPENAI_API_KEY"]
+# openai.api_key = os.environ["OPENAI_API_KEY"]
 
 
 def generate_text(prompt: str, profile: ModelProfile) -> str:
@@ -19,6 +19,7 @@ def generate_text(prompt: str, profile: ModelProfile) -> str:
     Returns:
         str: The generated text as a string.
     """
+    print(f"Prompt: {prompt}")
     try:
         response = openai.Completion.create(
             prompt=prompt,
@@ -26,9 +27,10 @@ def generate_text(prompt: str, profile: ModelProfile) -> str:
             max_tokens=profile.max_token,
             temperature=profile.temperature
         )
+        print(f"Response: {response}")
         return response.choices[0].text.strip()
-    except:
-        return "Sorry, failed to generate response"
+    except Exception as e:
+        return f"Sorry, failed to generate response, error: {e}"
 
 
 # example usage with context
