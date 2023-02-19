@@ -3,9 +3,10 @@ import re
 from bs4 import BeautifulSoup
 from googlesearch import search
 
+
 def extract_content_from_google(query):
     results = []
-    for url in search(query, num_results=5):
+    for url in search(query, num_results=3):
         try:
             html = requests.get(url).text
             soup = BeautifulSoup(html, 'html.parser')
