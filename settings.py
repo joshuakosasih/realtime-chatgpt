@@ -10,7 +10,7 @@ class ModelProfile:
         temperature (float): The temperature to use when generating text. Higher temperatures will result in more
             diverse and creative text, while lower temperatures will result in more predictable and conservative text.
     """
-    def __init__(self, engine="davinci", max_token=512, temperature=0.5):
+    def __init__(self, engine="text-davinci-003", max_token=512, temperature=0.5):
         self.engine = engine
         self.max_token = max_token
         self.temperature = temperature

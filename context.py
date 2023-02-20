@@ -37,6 +37,7 @@ class ContextKeeper:
         self.profile = profile
         if self.profile is None:
             self.profile = ModelProfile()
+        self.reset_context()
 
     def add_context(self, text: str) -> None:
         """
@@ -55,18 +56,26 @@ class ContextKeeper:
         if len(self.context) >= self.max_context_turns or len(self.get_context()) >= self.max_context_size:
             self.summarize_context()
 
+    def reset_context(self) -> None:
+        self.context.clear()
+        self.add_context("The following is a conversation with an AI assistant. "
+                         "The assistant is helpful, creative, clever, and very friendly.")
+        self.add_context("Human: Hello, who are you?")
+        self.add_context("AI: I am an AI created by OpenAI. How can I help you today?")
+
     def summarize_context(self) -> None:
         """
         Summarize the context using OpenAI API.
         """
         # Use OpenAI API to summarize the context
-        prompt = 'Summarize the following conversation:\n\n'
+        prompt = 'Summarize the following conversation between a human and an AI as short as possible:\n\n'
+        self.context.popleft()
         for turn in self.context:
             prompt += f'{turn}\n'
-        response = generate_text(prompt, self.profile)
+        response = generate_text(prompt, self.profile, None)
 
         # Remove the entire context and replace it with the summary
-        self.context.clear()
+        self.reset_context()
         self.context.append(response)
 
     def get_context(self) -> str:
@@ -76,7 +85,7 @@ class ContextKeeper:
         Returns:
             str: The full context.
         """
-        return ' '.join(self.context)
+        return '\n'.join(self.context)
 
     def add_turn(self, text: str) -> str:
         """
@@ -88,9 +97,9 @@ class ContextKeeper:
         Returns:
             str: The bot's response.
         """
-        prompt = self.get_context() + "User: " + text + "\nBot:"
+        prompt = self.get_context() + "\nHuman: " + text + "\nAI:"
         response = generate_text(prompt, self.profile)
-        self.add_context("User: " + text + "\nBot: " + response + "\n")
+        self.add_context("Human: " + text + "\nAI: " + response + "\n")
 
         return response
 

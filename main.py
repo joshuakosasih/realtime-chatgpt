@@ -11,9 +11,9 @@ def main():
     # Start the conversation loop
     while True:
         # Prompt the user for input
-        user_input = input("> You: ")
+        user_input = input("You: ")
         if user_input.startswith('!real '):
-            context_keeper.add_context(process_input(user_input, model_profile))
+            context_keeper.add_context("AI: " + process_input(user_input, model_profile))
             user_input = user_input[6:]
 
         # Add the user input to the context and generate a response

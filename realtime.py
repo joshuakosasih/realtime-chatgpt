@@ -16,18 +16,17 @@ def generate_keywords(text: str, profile: ModelProfile) -> List[str]:
     Returns:
         List[str]: The generated search keywords.
     """
-    prompt = "Generate Google search keywords for the following text:\n\n" + text
+    prompt = "Generate Google search keywords (in bullet points) for the following text:\n\n" + text
     response = generate_text(prompt, profile)
 
     # Parse bullet points and collect each keyword
     keywords = []
     for bullet in response.split('\n'):
-        if bullet.startswith('* '):
+        if bullet.startswith('• '):
             keyword = bullet[2:].strip()
             keywords.append(keyword)
 
-    return keywords
-
+    return keywords[:2]
 
 def get_search_results(queries: List[str]) -> List[str]:
     """
@@ -57,7 +56,7 @@ def summarize_contents(contents: List[str], profile: ModelProfile) -> str:
     Returns:
         str: The summarized text.
     """
-    prompt = 'Summarize the following contents:\n\n'
+    prompt = 'Summarize the following contents as short as possible:\n\n'
     for content in contents:
         prompt += f'{content}\n'
     return generate_text(prompt, profile)
